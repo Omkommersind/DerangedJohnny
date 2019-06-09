@@ -1,2 +1,2 @@
 # DerangedJohnny
-Required Unity Editor >= 2019.1.3
+Required Unity Editor >= 2019.1.5f1
