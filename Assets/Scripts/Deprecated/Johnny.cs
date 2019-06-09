@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scrooge : BaseCharecter
+public class Johnny : BaseCharecter
 {
     public enum StatesEnum { Idle, Run, Jump, Shoot }
     public StatesEnum State
