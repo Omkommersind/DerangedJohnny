@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3742095662039337461}
   - component: {fileID: 3602756706113190670}
   - component: {fileID: 3623811787884454403}
+  - component: {fileID: 1143398001944690040}
   m_Layer: 0
   m_Name: SmallExplosion
   m_TagString: Untagged
@@ -4853,3 +4854,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea4fb2b445afef4cb1a51ece0e72ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1143398001944690040
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3005061272266038236}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 550b34f5d983fcc4886174ee099b6bdd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

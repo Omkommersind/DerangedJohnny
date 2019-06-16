@@ -3,22 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Johnny : BaseCharecter
+public class Johnny : MonoBehaviour
 {
-    public enum StatesEnum { Idle, Run, Jump, Shoot }
-    public StatesEnum State
-    {
-        get { return (StatesEnum)CharecterAnimator.GetInteger("State"); }
-        set { CharecterAnimator.SetInteger("State", (int)value); }
-    }
-
     public Transform FirePoint = null;
+
+    private AnimationStatesController _animationStatesController = null;
 
     private bool _faceRight = true;
     private bool _isJumping = false;
     private bool _isShooting = false;
     [SerializeField] private bool _isGrounded = false;
 
+    public float Speed = 3f;
+    public int HP = 3;
+    public float JumpForce = 15f;
+
+    private Rigidbody2D _charecterRigidBody = null;
+    private BoxCollider2D _charecterBoxCollider = null;
+    private SpriteRenderer _charecterSpriteRenderer = null;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _charecterBoxCollider = GetComponent<BoxCollider2D>();
+        _charecterRigidBody = GetComponent<Rigidbody2D>();
+        _animationStatesController = GetComponent<AnimationStatesController>();
+
+        _charecterSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
 
     private void Awake() { }
 
@@ -35,9 +47,9 @@ public class Johnny : BaseCharecter
         _isGrounded = GetIsGrounded();
 
         if (_isGrounded)
-            State = StatesEnum.Idle;
+            _animationStatesController.State = AnimationStatesController.StatesEnum.Idle;
         else
-            State = StatesEnum.Jump;
+            _animationStatesController.State = AnimationStatesController.StatesEnum.Jump;
 
         if (Input.GetButton("Horizontal"))
             Run();
@@ -61,10 +73,43 @@ public class Johnny : BaseCharecter
         }
     }
 
+    private bool GetIsGrounded()
+    {
+        // Todo: upgrade
+        Vector2 direction = Vector2.down;
+        float distance = 1.0f;
+
+        //Hit left side
+        Vector2 position = new Vector3(_charecterBoxCollider.bounds.min.x, transform.position.y, transform.position.z);
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+
+        //Hit center
+        position.x = _charecterBoxCollider.bounds.center.x;
+        hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+
+        //Hit right side
+        position.x = _charecterBoxCollider.bounds.max.x;
+        hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     private void Run()
     {
         if (_isGrounded)
-            State = StatesEnum.Run;
+            _animationStatesController.State = AnimationStatesController.StatesEnum.Run;
 
         Vector3 direction = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Speed * Time.deltaTime);
@@ -78,7 +123,7 @@ public class Johnny : BaseCharecter
     private void Flip()
     {
         _faceRight = !_faceRight;
-        CharecterSpriteRenderer.flipX = !CharecterSpriteRenderer.flipX;
+        _charecterSpriteRenderer.flipX = !_charecterSpriteRenderer.flipX;
 
         FirePoint.Rotate(Vector3.up, 180f);
         FirePoint.localPosition = new Vector3(-FirePoint.localPosition.x, FirePoint.localPosition.y, FirePoint.localPosition.z);
@@ -86,18 +131,18 @@ public class Johnny : BaseCharecter
 
     private void Jump()
     {
-        CharecterRigidBody.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);
+        _charecterRigidBody.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);
         _isJumping = false;
     }
 
     private void Shoot()
     {
-        State = StatesEnum.Shoot;
+        _animationStatesController.State = AnimationStatesController.StatesEnum.Shoot;
     }
 
     private void EndShoot()
     {
         _isShooting = false;
-        State = StatesEnum.Idle;
+        _animationStatesController.State = AnimationStatesController.StatesEnum.Idle;
     }
 }
