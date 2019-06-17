@@ -5870,11 +5870,12 @@ GameObject:
   - component: {fileID: 1914827681}
   - component: {fileID: 1914827680}
   - component: {fileID: 1914827679}
+  - component: {fileID: 1914827678}
   - component: {fileID: 1914827677}
   - component: {fileID: 1914827676}
-  - component: {fileID: 1914827678}
   - component: {fileID: 1914827682}
   - component: {fileID: 1914827683}
+  - component: {fileID: 1914827684}
   m_Layer: 0
   m_Name: Johnny
   m_TagString: Player
@@ -6022,7 +6023,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34abac44f1281d47b71f2c41da80920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvincibilitySeconds: 3
+--- !u!114 &1914827684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914827675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 608179b7333f73d4ab0442d0ee796965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1915660445
 GameObject:
   m_ObjectHideFlags: 0
