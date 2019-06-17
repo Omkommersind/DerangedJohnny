@@ -9,13 +9,11 @@ public class SmallExplosion : MonoBehaviour
 
     private bool _exploded = false;
     private ParticleSystem _particleSystem;
-    private CircleCollider2D _exprosionRadiusCircleCollider = null;
  
  
     private void Start()
     {
         _particleSystem = GetComponent<ParticleSystem>();
-        _exprosionRadiusCircleCollider = GetComponent<CircleCollider2D>();
     }
 
     private void Update()
@@ -28,6 +26,7 @@ public class SmallExplosion : MonoBehaviour
 
         if (!_particleSystem.IsAlive())
         {
+            // Explosion particles animation finished
             Destroy(gameObject);
         }
     }
@@ -42,7 +41,6 @@ public class SmallExplosion : MonoBehaviour
 
             if (rb != null)
             {
-                Debug.Log("Explode! Hit info: " + hit.ToString());
                 var impulseDirection = new Vector2(transform.position.x - rb.position.x, 
                                                    transform.position.y - rb.position.y).normalized;
                 rb.AddForce(-impulseDirection * power, ForceMode2D.Impulse);
