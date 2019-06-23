@@ -6585,8 +6585,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ca0b389b19e13488b35e0b17497158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 5
+  HP: 3
   InvincibilitySeconds: 3
+  DieParticlesPrefab: {fileID: 6369303511593209298, guid: 0b7e8f8fcb326ef419fd2fb68185dee0,
+    type: 3}
 --- !u!114 &1914827683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6599,6 +6601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34abac44f1281d47b71f2c41da80920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumTakeDamageDuration: 0.2
 --- !u!114 &1914827684
 MonoBehaviour:
   m_ObjectHideFlags: 0

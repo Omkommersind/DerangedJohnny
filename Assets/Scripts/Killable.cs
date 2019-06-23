@@ -6,6 +6,7 @@ public class Killable : MonoBehaviour
 {
     public float HP = 5f;
     public float InvincibilitySeconds = 3f;
+    public ParticleSystem DieParticlesPrefab = null;
 
     private Animator _charecterAnimator = null;
     private AnimationStatesController _animationStatesController = null;
@@ -45,6 +46,7 @@ public class Killable : MonoBehaviour
     private void Die()
     {
         // Todo: perish animation
+        Instantiate(DieParticlesPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         Destroy(gameObject);
     }
 

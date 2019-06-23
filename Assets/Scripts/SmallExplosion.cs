@@ -8,12 +8,9 @@ public class SmallExplosion : MonoBehaviour
     public float power = 5.0F;
 
     private bool _exploded = false;
-    private ParticleSystem _particleSystem;
- 
  
     private void Start()
     {
-        _particleSystem = GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -22,12 +19,6 @@ public class SmallExplosion : MonoBehaviour
         {
             Explode();
             _exploded = true;
-        }
-
-        if (!_particleSystem.IsAlive())
-        {
-            // Explosion particles animation finished
-            Destroy(gameObject);
         }
     }
 
@@ -41,16 +32,17 @@ public class SmallExplosion : MonoBehaviour
 
             if (rb != null)
             {
-                var impulseDirection = new Vector2(transform.position.x - rb.position.x, 
-                                                   transform.position.y - rb.position.y).normalized;
-                rb.AddForce(-impulseDirection * power, ForceMode2D.Impulse);
-
                 // Damage killables
                 var killable = hit.GetComponent<Killable>();
                 if (killable != null)
                 {
+                    if (killable.IsInvincible) continue; //Do not touch invincible killable
                     killable.TakeDamage();
                 }
+
+                var impulseDirection = new Vector2(transform.position.x - rb.position.x, 
+                                                   transform.position.y - rb.position.y).normalized;
+                rb.AddForce(-impulseDirection * power, ForceMode2D.Impulse);
             }
         }
     }
