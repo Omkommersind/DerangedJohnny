@@ -44,6 +44,13 @@ public class SmallExplosion : MonoBehaviour
                 var impulseDirection = new Vector2(transform.position.x - rb.position.x, 
                                                    transform.position.y - rb.position.y).normalized;
                 rb.AddForce(-impulseDirection * power, ForceMode2D.Impulse);
+
+                // Damage killables
+                var killable = hit.GetComponent<Killable>();
+                if (killable != null)
+                {
+                    killable.TakeDamage();
+                }
             }
         }
     }

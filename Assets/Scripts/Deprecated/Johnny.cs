@@ -38,8 +38,11 @@ public class Johnny : MonoBehaviour
 
     private void Update()
     {
+        if (_animationStatesController.State == AnimationStatesController.StatesEnum.TakeDamage) return; //Cant control while suffering
+
         if (Input.GetButtonDown("Jump"))
             _isJumping = true;
+
         if (Input.GetButtonDown("Fire1"))
             _isShooting = true;
     }
@@ -51,9 +54,9 @@ public class Johnny : MonoBehaviour
         if (_isGrounded)
             _animationStatesController.State = AnimationStatesController.StatesEnum.Idle;
         else
-            _animationStatesController.State = AnimationStatesController.StatesEnum.Jump;
+           _animationStatesController.State = AnimationStatesController.StatesEnum.Jump;
 
-        if (Input.GetButton("Horizontal"))
+        if (Input.GetButton("Horizontal") && _animationStatesController.State != AnimationStatesController.StatesEnum.TakeDamage)
             Run();
 
         if (_isJumping && _isGrounded)
@@ -107,6 +110,8 @@ public class Johnny : MonoBehaviour
     private void Shoot()
     {
         _animationStatesController.State = AnimationStatesController.StatesEnum.Shoot;
+        // Todo: after
+        EndShoot();
     }
 
     private void EndShoot()

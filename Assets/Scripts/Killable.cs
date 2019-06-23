@@ -8,6 +8,7 @@ public class Killable : MonoBehaviour
     public float InvincibilitySeconds = 3f;
 
     private Animator _charecterAnimator = null;
+    private AnimationStatesController _animationStatesController = null;
 
     public bool IsInvincible
     {
@@ -21,12 +22,14 @@ public class Killable : MonoBehaviour
     private void Awake()
     {
         _charecterAnimator = GetComponent<Animator>();
+        _animationStatesController = GetComponent<AnimationStatesController>();
     }
 
     public void TakeDamage()
     {
         if (IsInvincible) return;
 
+        _animationStatesController.State = AnimationStatesController.StatesEnum.TakeDamage;
         HP--;
         if (HP <= 0)
         {
@@ -48,7 +51,6 @@ public class Killable : MonoBehaviour
 
     private void StopInvincibility()
     {
-        Debug.Log("Stop invincibility");
         IsInvincible = false;
     }
 }
