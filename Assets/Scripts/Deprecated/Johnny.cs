@@ -5,23 +5,19 @@ using UnityEngine;
 
 public class Johnny : MonoBehaviour
 {
-    public Transform FirePoint = null;
-
     private AnimationStatesController _animationStatesController = null;
     private IsGroundedController _isGroundedController = null;
+    private WalkController _walkController = null;
 
-    private bool _faceRight = true;
     private bool _isJumping = false;
     private bool _isShooting = false;
     [SerializeField] private bool _isGrounded = false;
 
-    public float Speed = 3f;
     public int HP = 3;
     public float JumpForce = 15f;
 
     private Rigidbody2D _charecterRigidBody = null;
     private BoxCollider2D _charecterBoxCollider = null;
-    private SpriteRenderer _charecterSpriteRenderer = null;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +26,7 @@ public class Johnny : MonoBehaviour
         _charecterRigidBody = GetComponent<Rigidbody2D>();
         _animationStatesController = GetComponent<AnimationStatesController>();
         _isGroundedController = GetComponent<IsGroundedController>();
-
-        _charecterSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _walkController = GetComponent<WalkController>();
     }
 
     private void Awake() { }
@@ -57,7 +52,7 @@ public class Johnny : MonoBehaviour
            _animationStatesController.State = AnimationStatesController.StatesEnum.Jump;
 
         if (Input.GetButton("Horizontal") && _animationStatesController.State != AnimationStatesController.StatesEnum.TakeDamage)
-            Run();
+            _walkController.Run(Input.GetAxis("Horizontal"), _isGrounded);
 
         if (_isJumping && _isGrounded)
         {
@@ -76,29 +71,6 @@ public class Johnny : MonoBehaviour
         {
             _isShooting = false;
         }
-    }
-
-    private void Run()
-    {
-        if (_isGrounded)
-            _animationStatesController.State = AnimationStatesController.StatesEnum.Run;
-
-        Vector3 direction = transform.right * Input.GetAxis("Horizontal");
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Speed * Time.deltaTime);
-
-        if (direction.x < 0 && _faceRight || direction.x > 0 && !_faceRight)
-        {
-            Flip();
-        }
-    }
-
-    private void Flip()
-    {
-        _faceRight = !_faceRight;
-        _charecterSpriteRenderer.flipX = !_charecterSpriteRenderer.flipX;
-
-        FirePoint.Rotate(Vector3.up, 180f);
-        FirePoint.localPosition = new Vector3(-FirePoint.localPosition.x, FirePoint.localPosition.y, FirePoint.localPosition.z);
     }
 
     private void Jump()
