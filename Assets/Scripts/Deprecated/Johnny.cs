@@ -5,28 +5,28 @@ using UnityEngine;
 
 public class Johnny : MonoBehaviour
 {
-    private AnimationStatesController _animationStatesController = null;
-    private IsGroundedController _isGroundedController = null;
-    private WalkController _walkController = null;
+    private AnimationStatesController _animationStatesController;
+    private IsGroundedController _isGroundedController;
+    private WalkController _walkController;
+    private JumpController _jumpController;
+    private ShootController _shootController;
 
-    private bool _isJumping = false;
-    private bool _isShooting = false;
-    [SerializeField] private bool _isGrounded = false;
+    private BoxCollider2D _charecterBoxCollider;
+    
+    [SerializeField]
+    private bool _isGrounded = false;
 
     public int HP = 3;
-    public float JumpForce = 15f;
-
-    private Rigidbody2D _charecterRigidBody = null;
-    private BoxCollider2D _charecterBoxCollider = null;
 
     // Start is called before the first frame update
     void Start()
     {
         _charecterBoxCollider = GetComponent<BoxCollider2D>();
-        _charecterRigidBody = GetComponent<Rigidbody2D>();
         _animationStatesController = GetComponent<AnimationStatesController>();
         _isGroundedController = GetComponent<IsGroundedController>();
         _walkController = GetComponent<WalkController>();
+        _jumpController = GetComponent<JumpController>();
+        _shootController = GetComponent<ShootController>();
     }
 
     private void Awake() { }
@@ -36,10 +36,10 @@ public class Johnny : MonoBehaviour
         if (_animationStatesController.State == AnimationStatesController.StatesEnum.TakeDamage) return; //Cant control while suffering
 
         if (Input.GetButtonDown("Jump"))
-            _isJumping = true;
+            _jumpController.IsJumping = true;
 
         if (Input.GetButtonDown("Fire1"))
-            _isShooting = true;
+            _shootController.IsShooting = true;
     }
 
     private void FixedUpdate()
@@ -54,41 +54,7 @@ public class Johnny : MonoBehaviour
         if (Input.GetButton("Horizontal") && _animationStatesController.State != AnimationStatesController.StatesEnum.TakeDamage)
             _walkController.Run(Input.GetAxis("Horizontal"), _isGrounded);
 
-        if (_isJumping && _isGrounded)
-        {
-            Jump();
-        }
-        else
-        {
-            _isJumping = false;
-        }
-
-        if (_isShooting && _isGrounded)
-        {
-            Shoot();
-        }
-        else
-        {
-            _isShooting = false;
-        }
-    }
-
-    private void Jump()
-    {
-        _charecterRigidBody.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);
-        _isJumping = false;
-    }
-
-    private void Shoot()
-    {
-        _animationStatesController.State = AnimationStatesController.StatesEnum.Shoot;
-        // Todo: after
-        EndShoot();
-    }
-
-    private void EndShoot()
-    {
-        _isShooting = false;
-        _animationStatesController.State = AnimationStatesController.StatesEnum.Idle;
+        _jumpController.TryJump(_isGrounded);
+        _shootController.TryShoot();
     }
 }
