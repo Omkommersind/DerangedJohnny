@@ -46,7 +46,8 @@ public class Killable : MonoBehaviour
     private void Die()
     {
         // Todo: perish animation
-        Instantiate(DieParticlesPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        if (DieParticlesPrefab)
+            Instantiate(DieParticlesPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         Destroy(gameObject);
     }
 
