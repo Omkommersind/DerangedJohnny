@@ -8,6 +8,7 @@ public class Johnny : MonoBehaviour
     private AnimationStatesController _animationStatesController;
     private IsGroundedController _isGroundedController;
     private WalkController _walkController;
+    private CharecterDirectionController _directionController;
     private JumpController _jumpController;
     private ShootController _shootController;
 
@@ -23,6 +24,7 @@ public class Johnny : MonoBehaviour
         _animationStatesController = GetComponent<AnimationStatesController>();
         _isGroundedController = GetComponent<IsGroundedController>();
         _walkController = GetComponent<WalkController>();
+        _directionController = GetComponent<CharecterDirectionController>();
         _jumpController = GetComponent<JumpController>();
         _shootController = GetComponent<ShootController>();
     }
@@ -50,7 +52,15 @@ public class Johnny : MonoBehaviour
            _animationStatesController.State = AnimationStatesController.StatesEnum.Jump;
 
         if (Input.GetButton("Horizontal") && _animationStatesController.State != AnimationStatesController.StatesEnum.TakeDamage)
-            _walkController.Run(Input.GetAxis("Horizontal"), _isGrounded);
+        {
+            var value = Input.GetAxis("Horizontal");
+            if (value < 0 && _directionController.FaceRight || value > 0 && !_directionController.FaceRight)
+            {
+                _directionController.Flip();
+            }
+
+            _walkController.Run(value, _isGrounded);
+        }
 
         _jumpController.TryJump(_isGrounded);
         _shootController.TryShoot();
