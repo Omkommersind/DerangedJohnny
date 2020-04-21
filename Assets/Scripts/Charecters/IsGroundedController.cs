@@ -21,7 +21,7 @@ public class IsGroundedController : MonoBehaviour
         // Todo: upgrade
         _raycastGizmos = new List<Vector2>();
         Vector2 direction = Vector2.down;
-        float distance = 1.0f;
+        float distance = 0.1f;
 
         //Hit left side
         Vector2 position = new Vector3(_boxCollider.bounds.min.x, _boxCollider.bounds.min.y, transform.position.z);
@@ -55,15 +55,15 @@ public class IsGroundedController : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (ShowGroundCollisionGizmo)
-        {
-            Gizmos.color = Color.red;
-            foreach (var pos in _raycastGizmos)
-            {
-                Gizmos.DrawLine(new Vector3(pos.x, pos.y + 0.2f, 0), pos);
-                Gizmos.DrawLine(new Vector3(pos.x - 0.2f, pos.y + 0.1f, 0), pos);
-                Gizmos.DrawLine(new Vector3(pos.x + 0.2f, pos.y + 0.1f, 0), pos);
-            }
-        }
+        //if (ShowGroundCollisionGizmo)
+        //{
+        //    Gizmos.color = Color.red;
+        //    foreach (var pos in _raycastGizmos)
+        //    {
+        //        Gizmos.DrawLine(new Vector3(pos.x, pos.y + 0.2f, 0), pos);
+        //        Gizmos.DrawLine(new Vector3(pos.x - 0.2f, pos.y + 0.1f, 0), pos);
+        //        Gizmos.DrawLine(new Vector3(pos.x + 0.2f, pos.y + 0.1f, 0), pos);
+        //    }
+        //}
     }
 }

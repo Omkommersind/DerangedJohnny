@@ -14,6 +14,7 @@ public class StoneGolem : MonoBehaviour
     private BoxCollider2D _charecterBoxCollider;
 
     private Vector2 _bottomForwardGizmo;
+    private Vector2 _middleForwardGizmo;
     private Vector2 _topForwardGizmo;
 
     //[SerializeField]
@@ -30,6 +31,7 @@ public class StoneGolem : MonoBehaviour
         _shootController = GetComponent<ShootController>();
 
         _bottomForwardGizmo = new Vector2();
+        _middleForwardGizmo = new Vector2();
         _topForwardGizmo = new Vector2();
     }
 
@@ -67,49 +69,37 @@ public class StoneGolem : MonoBehaviour
         float distance = 0.1f;
         float raycastPointOffset = 0.2f;
 
-        if (direction.x > 0)
+
+        //Hit bottom
+        Vector2 position = new Vector3(direction.x > 0  ? _charecterBoxCollider.bounds.max.x  : _charecterBoxCollider.bounds.min.x, 
+            _charecterBoxCollider.bounds.min.y + raycastPointOffset, transform.position.z);
+        _bottomForwardGizmo = position;
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
+        if (hit.collider != null)
         {
-            //Hit bottom
-            Vector2 position = new Vector3(_charecterBoxCollider.bounds.max.x, _charecterBoxCollider.bounds.min.y + raycastPointOffset, transform.position.z);
-            _bottomForwardGizmo = position;
-            RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
-            if (hit.collider != null)
-            {
-                return true;
-            }
-
-            //Hit top
-            position.y = _charecterBoxCollider.bounds.max.y - raycastPointOffset;
-            _topForwardGizmo = position;
-            hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
-            if (hit.collider != null)
-            {
-                return true;
-            }
-
-            return false;
-        } else
-        {
-            //Hit bottom
-            Vector2 position = new Vector3(_charecterBoxCollider.bounds.min.x, _charecterBoxCollider.bounds.min.y + raycastPointOffset, transform.position.z);
-            _bottomForwardGizmo = position;
-            RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
-            if (hit.collider != null)
-            {
-                return true;
-            }
-
-            //Hit top
-            position.y = _charecterBoxCollider.bounds.max.y - raycastPointOffset;
-            _topForwardGizmo = position;
-            hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
-            if (hit.collider != null)
-            {
-                return true;
-            }
-
-            return false;
+            return true;
         }
+
+
+        //Hit center
+        position.y = _charecterBoxCollider.bounds.center.y;
+        _middleForwardGizmo = position;
+        hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+
+        //Hit top
+        position.y = _charecterBoxCollider.bounds.max.y - raycastPointOffset;
+        _topForwardGizmo = position;
+        hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     void OnDrawGizmos()
@@ -118,6 +108,7 @@ public class StoneGolem : MonoBehaviour
         {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(_bottomForwardGizmo, 0.1f);
+            Gizmos.DrawSphere(_middleForwardGizmo, 0.1f);
             Gizmos.DrawSphere(_topForwardGizmo, 0.1f);
         }
     }
