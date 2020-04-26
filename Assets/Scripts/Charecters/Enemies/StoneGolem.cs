@@ -5,6 +5,8 @@ using UnityEngine;
 public class StoneGolem : MonoBehaviour
 {
     public bool ShowForwardRaycastPointsGizmos = false;
+    public Transform TargetDetectionSource = new RectTransform();
+    public float TargetDetectionRadius = 5.0f;
 
     private AnimationStatesController _animationStatesController;
     private IsGroundedController _isGroundedController;
@@ -18,7 +20,7 @@ public class StoneGolem : MonoBehaviour
     private Vector2 _topForwardGizmo;
 
     //[SerializeField]
-    private bool _isGrounded = false;
+    private bool _isGrounded;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +31,7 @@ public class StoneGolem : MonoBehaviour
         _walkController = GetComponent<WalkController>();
         _directionController = GetComponent<CharecterDirectionController>();
         _shootController = GetComponent<ShootController>();
-
+        
         _bottomForwardGizmo = new Vector2();
         _middleForwardGizmo = new Vector2();
         _topForwardGizmo = new Vector2();
@@ -110,6 +112,12 @@ public class StoneGolem : MonoBehaviour
             Gizmos.DrawSphere(_bottomForwardGizmo, 0.1f);
             Gizmos.DrawSphere(_middleForwardGizmo, 0.1f);
             Gizmos.DrawSphere(_topForwardGizmo, 0.1f);
+
+            if (_charecterBoxCollider != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(TargetDetectionSource.position, TargetDetectionRadius);
+            }
         }
     }
 }
