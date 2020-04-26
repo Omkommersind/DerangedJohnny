@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 245366950}
   - component: {fileID: 245366952}
   - component: {fileID: 245366954}
+  - component: {fileID: 245366955}
   m_Layer: 9
   m_Name: StoneGolem
   m_TagString: Enemy
@@ -384,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232c4c674849a8e42b96df52e00e7a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FirePoint: {fileID: 0}
+  FirePoint: {fileID: 1684672804}
   FaceRight: 1
 --- !u!114 &245366953
 MonoBehaviour:
@@ -414,6 +415,23 @@ MonoBehaviour:
   TargetDetectionSource: {fileID: 177980425}
   TargetDetectionRadius: 5
   EnemyCollider2D: {fileID: 1914827680}
+--- !u!114 &245366955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245366942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea84b471d43d114f89d6186b104c8d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FirePoint: {fileID: 1684672804}
+  BulletPrefab: {fileID: 4466299407962103224, guid: 718c097fb3ef90047a33a0421cab6d37,
+    type: 3}
+  CooldownSeconds: 2
+  IsShooting: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -8483,6 +8501,8 @@ MonoBehaviour:
   FirePoint: {fileID: 1332467286}
   BulletPrefab: {fileID: 4466299407962103224, guid: 718c097fb3ef90047a33a0421cab6d37,
     type: 3}
+  CooldownSeconds: 1
+  IsShooting: 0
 --- !u!114 &1914827677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8770,6 +8790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fd57302fe6ea64898b323e9d61f9fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationStatesController: {fileID: 0}
   IsShooting: 0
 --- !u!114 &1914827690
 MonoBehaviour:

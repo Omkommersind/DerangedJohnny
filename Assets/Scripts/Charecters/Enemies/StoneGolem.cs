@@ -11,7 +11,7 @@ public class StoneGolem : MonoBehaviour
     private IsGroundedController _isGroundedController;
     private WalkController _walkController;
     private CharecterDirectionController _directionController;
-    private ShootController _shootController;
+    private WeaponController _weaponController;
     private BoxCollider2D _characterBoxCollider;
     private TargetDetectionController _targetDetectionController;
 
@@ -30,7 +30,7 @@ public class StoneGolem : MonoBehaviour
         _isGroundedController = GetComponent<IsGroundedController>();
         _walkController = GetComponent<WalkController>();
         _directionController = GetComponent<CharecterDirectionController>();
-        _shootController = GetComponent<ShootController>();
+        _weaponController = GetComponent<WeaponController>();
         _targetDetectionController = GetComponent<TargetDetectionController>();
         
         _bottomForwardGizmo = new Vector2();
@@ -62,7 +62,8 @@ public class StoneGolem : MonoBehaviour
         _walkController.Run(1, _isGrounded);
 
         // _jumpController.TryJump(_isGrounded);
-        //_shootController.TryShoot();
+        if (_targetDetectionController.TargetDetected)
+            _weaponController.IsShooting = true;
     }
 
     // Todo: optimize

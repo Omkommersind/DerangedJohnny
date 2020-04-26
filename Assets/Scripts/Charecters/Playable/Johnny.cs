@@ -10,7 +10,7 @@ public class Johnny : MonoBehaviour
     private WalkController _walkController;
     private CharecterDirectionController _directionController;
     private JumpController _jumpController;
-    private ShootController _shootController;
+    private WeaponController _weaponController;
 
     private BoxCollider2D _charecterBoxCollider;
     
@@ -26,7 +26,7 @@ public class Johnny : MonoBehaviour
         _walkController = GetComponent<WalkController>();
         _directionController = GetComponent<CharecterDirectionController>();
         _jumpController = GetComponent<JumpController>();
-        _shootController = GetComponent<ShootController>();
+        _weaponController = GetComponent<WeaponController>();
     }
 
     private void Awake() { }
@@ -39,7 +39,7 @@ public class Johnny : MonoBehaviour
             _jumpController.IsJumping = true;
 
         if (Input.GetButtonDown("Fire1"))
-            _shootController.IsShooting = true;
+            _weaponController.IsShooting = true;
     }
 
     private void FixedUpdate()
@@ -63,6 +63,5 @@ public class Johnny : MonoBehaviour
         }
 
         _jumpController.TryJump(_isGrounded);
-        _shootController.TryShoot();
     }
 }
