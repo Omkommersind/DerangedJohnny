@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class StoneGolem : MonoBehaviour
 {
     public bool ShowForwardRaycastPointsGizmos = false;
-    public Transform TargetDetectionSource = new RectTransform();
-    public float TargetDetectionRadius = 5.0f;
 
     private AnimationStatesController _animationStatesController;
     private IsGroundedController _isGroundedController;
     private WalkController _walkController;
     private CharecterDirectionController _directionController;
     private ShootController _shootController;
-    private BoxCollider2D _charecterBoxCollider;
+    private BoxCollider2D _characterBoxCollider;
+    private TargetDetectionController _targetDetectionController;
 
     private Vector2 _bottomForwardGizmo;
     private Vector2 _middleForwardGizmo;
@@ -25,12 +25,13 @@ public class StoneGolem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _charecterBoxCollider = GetComponent<BoxCollider2D>();
+        _characterBoxCollider = GetComponent<BoxCollider2D>();
         _animationStatesController = GetComponent<AnimationStatesController>();
         _isGroundedController = GetComponent<IsGroundedController>();
         _walkController = GetComponent<WalkController>();
         _directionController = GetComponent<CharecterDirectionController>();
         _shootController = GetComponent<ShootController>();
+        _targetDetectionController = GetComponent<TargetDetectionController>();
         
         _bottomForwardGizmo = new Vector2();
         _middleForwardGizmo = new Vector2();
@@ -73,8 +74,8 @@ public class StoneGolem : MonoBehaviour
 
 
         //Hit bottom
-        Vector2 position = new Vector3(direction.x > 0  ? _charecterBoxCollider.bounds.max.x  : _charecterBoxCollider.bounds.min.x, 
-            _charecterBoxCollider.bounds.min.y + raycastPointOffset, transform.position.z);
+        Vector2 position = new Vector3(direction.x > 0  ? _characterBoxCollider.bounds.max.x  : _characterBoxCollider.bounds.min.x, 
+            _characterBoxCollider.bounds.min.y + raycastPointOffset, transform.position.z);
         _bottomForwardGizmo = position;
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
         if (hit.collider != null)
@@ -84,7 +85,7 @@ public class StoneGolem : MonoBehaviour
 
 
         //Hit center
-        position.y = _charecterBoxCollider.bounds.center.y;
+        position.y = _characterBoxCollider.bounds.center.y;
         _middleForwardGizmo = position;
         hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
         if (hit.collider != null)
@@ -93,7 +94,7 @@ public class StoneGolem : MonoBehaviour
         }
 
         //Hit top
-        position.y = _charecterBoxCollider.bounds.max.y - raycastPointOffset;
+        position.y = _characterBoxCollider.bounds.max.y - raycastPointOffset;
         _topForwardGizmo = position;
         hit = Physics2D.Raycast(position, direction, distance, 1 << 8);
         if (hit.collider != null)
@@ -113,10 +114,16 @@ public class StoneGolem : MonoBehaviour
             Gizmos.DrawSphere(_middleForwardGizmo, 0.1f);
             Gizmos.DrawSphere(_topForwardGizmo, 0.1f);
 
-            if (_charecterBoxCollider != null)
+            if (_targetDetectionController != null)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(TargetDetectionSource.position, TargetDetectionRadius);
+                Gizmos.DrawWireSphere(_targetDetectionController.TargetDetectionSource.position, _targetDetectionController.TargetDetectionRadius);
+
+                if (_targetDetectionController.TargetDetected)
+                {
+                    Handles.color = Color.red;
+                    Handles.Label(transform.position, "Target detected");
+                }
             }
         }
     }
