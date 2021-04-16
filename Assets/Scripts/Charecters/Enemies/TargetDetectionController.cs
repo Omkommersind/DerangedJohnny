@@ -36,7 +36,8 @@ public class TargetDetectionController : MonoBehaviour
         int i = 0;
         while (i < hitColliders.Length)
         {
-            if (hitColliders[i] == EnemyCollider2D) {
+            var johnny = hitColliders[i].gameObject.GetComponent<Johnny>();
+            if (johnny != null) {
                 Console.WriteLine("Target detected");
                 _targetDetected = true;
                 return;

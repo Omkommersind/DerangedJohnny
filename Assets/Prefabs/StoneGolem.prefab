@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 8128911481822731305}
   - component: {fileID: 8128911481822731304}
   m_Layer: 9
-  m_Name: StoneGolem 1
+  m_Name: StoneGolem
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,7 +248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetDetectionSource: {fileID: 8128911481754917002}
   TargetDetectionRadius: 5
-  EnemyCollider2D: {fileID: 0}
+  EnemyCollider2D: {fileID: 135515044804864071, guid: cc28d4a1ccfc2cb49a82e055365748d8,
+    type: 3}
 --- !u!114 &8128911481822731304
 MonoBehaviour:
   m_ObjectHideFlags: 0
