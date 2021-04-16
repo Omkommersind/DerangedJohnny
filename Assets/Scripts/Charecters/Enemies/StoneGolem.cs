@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class StoneGolem : MonoBehaviour
@@ -106,6 +108,7 @@ public class StoneGolem : MonoBehaviour
         return false;
     }
 
+    #if UNITY_EDITOR
     void OnDrawGizmos()
     {
         if (ShowForwardRaycastPointsGizmos)
@@ -128,4 +131,5 @@ public class StoneGolem : MonoBehaviour
             }
         }
     }
+    #endif
 }

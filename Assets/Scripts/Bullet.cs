@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public float Speed = 20f;
     private Rigidbody2D _rb = null;
     private bool _isExploding = false;
+    private bool _firstKillableCollision = true;
 
     void Start()
     {
@@ -22,6 +23,21 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // If collides with killable - explode immidiatelly
+        var killable = collision.gameObject.GetComponent<Killable>();
+        if (killable != null)
+        {
+            if (_firstKillableCollision)
+            {
+                // First collision always hits player
+                _firstKillableCollision = false;
+            } else
+            {
+                _isExploding = true;
+                Invoke("Explode", 0);
+            }
+        }
+
         //ContactPoint2D contact = collision.contacts[0];
         //Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         //Vector3 pos = contact.point;
